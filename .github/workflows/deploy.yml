@@ -51,9 +51,16 @@ jobs:
       - name: List directory to verify content of functions folder
         run: ls -l functions
       
+      # - name: Run CLI and print output
+      #   run: |
+      #     echo "Running Photoniq FaaS CLI..."
+      #     export API_URL="${{ secrets.API_URL }}"
+      #     export API_KEY="${{ secrets.API_KEY }}"
+      #     /usr/local/bin/faas remote deploy $(echo ${GITHUB_REPOSITORY##*/})
+
       - name: Run CLI and print output
         run: |
           echo "Running Photoniq FaaS CLI..."
           export API_URL="${{ secrets.API_URL }}"
           export API_KEY="${{ secrets.API_KEY }}"
-          /usr/local/bin/faas remote deploy $(echo ${GITHUB_REPOSITORY##*/})
+          /usr/local/bin/faas remote list
