@@ -7,8 +7,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set up and print repository path
+        run: |
+          REPO_PATH=functions/$(echo ${GITHUB_REPOSITORY##*/})
+          echo "REPO_PATH=$REPO_PATH" >> $GITHUB_ENV
+          echo "Repository will be checked out to: $REPO_PATH"
+
       - name: Check out repository
         uses: actions/checkout@v3
+        with:
+          path: ${{ env.REPO_PATH }}
 
       - name: Download Photoniq FaaS CLI
         run: curl -L -o faas-cli.tar.gz https://macrometacorp.github.io/photoniq-faas-cli-docs/faas-1.0.0-x86_64-unknown-linux-musl.tar.gz
@@ -24,8 +32,14 @@ jobs:
 
       - name: Make CLI executable
         run: sudo chmod +x /usr/local/bin/faas-1.0.0-x86_64-unknown-linux-musl/faas
+      
+      - name: List directory to verify does functions folder exist
+        run: ls -l 
+
+      - name: List directory to verify content of functions folder
+        run: ls -l functions
 
       - name: Run CLI and print output
         run: |
           echo "Running Photoniq FaaS CLI..."
-          /usr/local/bin/faas-1.0.0-x86_64-unknown-linux-musl/faas remote deploy --nextjs
+          /usr/local/bin/faas-1.0.0-x86_64-unknown-linux-musl/faas remote deploy $(echo ${GITHUB_REPOSITORY##*/})
