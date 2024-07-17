@@ -54,6 +54,6 @@ jobs:
       - name: Run CLI and print output
         run: |
           echo "Running Photoniq FaaS CLI..."
-          export API_URL=${{ secrets.API_URL }}
-          export API_KEY=${{ secrets.API_KEY }}
+          export API_URL="${{ secrets.API_URL }}"
+          export API_KEY="${{ secrets.API_KEY }}"
           /usr/local/bin/faas remote deploy $(echo ${GITHUB_REPOSITORY##*/})
