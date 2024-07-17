@@ -38,16 +38,23 @@ jobs:
       - name: Make CLI executable
         run: sudo chmod +x /usr/local/bin/faas
       
-      - name: Create .env file
-        run: |
-          echo "API_URL=${{ secrets.API_URL }}" >> /usr/local/bin/.env
-          echo "API_KEY=${{ secrets.API_KEY }}" >> /usr/local/bin/.env
+      # - name: Create .env file
+      #   run: |
+      #     echo "API_URL=${{ secrets.API_URL }}" >> /usr/local/bin/.env
+      #     echo "API_KEY=${{ secrets.API_KEY }}" >> /usr/local/bin/.env
+
+      
 
       - name: List directory to verify does functions folder exist
         run: ls -l 
 
       - name: List directory to verify content of functions folder
         run: ls -l functions
+      
+      - name: Set up environment variables
+        run: |
+          export API_URL=${{ secrets.API_URL }}
+          export API_KEY=${{ secrets.API_KEY }}
 
       - name: Run CLI and print output
         run: |
