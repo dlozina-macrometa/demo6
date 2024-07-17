@@ -33,13 +33,18 @@ jobs:
       - name: Make CLI executable
         run: sudo chmod +x /usr/local/bin/faas-1.0.0-x86_64-unknown-linux-musl/faas
       
+      - name: Create .env file
+        run: |
+          echo "API_URL=${{ secrets.API_URL }}" >> /usr/local/bin/faas-1.0.0-x86_64-unknown-linux-musl/.env
+          echo "API_KEY=${{ secrets.API_KEY }}" >> /usr/local/bin/faas-1.0.0-x86_64-unknown-linux-musl/.env
+
       - name: List directory to verify does functions folder exist
         run: ls -l 
 
       - name: List directory to verify content of functions folder
         run: ls -l functions
 
-      - name: Run CLI and print output
-        run: |
-          echo "Running Photoniq FaaS CLI..."
-          /usr/local/bin/faas-1.0.0-x86_64-unknown-linux-musl/faas remote deploy $(echo ${GITHUB_REPOSITORY##*/})
+      # - name: Run CLI and print output
+      #   run: |
+      #     echo "Running Photoniq FaaS CLI..."
+      #     /usr/local/bin/faas-1.0.0-x86_64-unknown-linux-musl/faas remote deploy $(echo ${GITHUB_REPOSITORY##*/})
